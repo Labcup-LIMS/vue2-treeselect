@@ -122,9 +122,12 @@
 
         const { instance } = this
 
+        const previouslyFocused = instance.trigger.isFocused
         // Focus the input or prevent blurring.
         instance.focusInput()
-        instance.toggleMenu()
+
+        // If on openOnFocus is set to true and we gained focus now than do not call toggleMenu as it would close the menu
+        if (previouslyFocused || !instance.openOnFocus) instance.toggleMenu()
       }),
 
       // This is meant to be called by child `<Value />` component.
