@@ -1,5 +1,5 @@
 /*!
- * vue-treeselect v0.4.0 | (c) 2017-2020 Riophae Lee
+ * vue-treeselect v0.4.0 | (c) 2017-2021 Riophae Lee
  * Released under the MIT License.
  * https://vue-treeselect.js.org/
  */
@@ -2970,8 +2970,9 @@ Arrow_component.options.__file = "src/components/icons/Arrow.vue"
       evt.preventDefault();
       evt.stopPropagation();
       var instance = this.instance;
+      var previouslyFocused = instance.trigger.isFocused;
       instance.focusInput();
-      instance.toggleMenu();
+      if (previouslyFocused || !instance.openOnFocus) instance.toggleMenu();
     }),
     renderValueContainer: function renderValueContainer(children) {
       var h = this.$createElement;
