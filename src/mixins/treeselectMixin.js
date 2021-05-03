@@ -271,25 +271,6 @@ export default {
     },
 
     /**
-     * If there are any selected node it should be visible so its parents should be expanded.
-     * Useful if you have initiate the control with at least one selected node.
-     */
-    expandParentsInMenuForSelected: {
-      type: Boolean,
-      default: false,
-    },
-
-    /**
-     * Only show the nodes that match the search value directly, excluding its ancestors.
-     *
-     * @type {Object}
-     */
-    flattenSearchResults: {
-      type: Boolean,
-      default: false,
-    },
-
-    /**
      * Prevent branch nodes from being selected?
      */
     disableBranchNodes: {
@@ -314,12 +295,31 @@ export default {
     },
 
     /**
+     * If there are any selected node it should be visible so its parents should be expanded.
+     * Useful if you have initiate the control with at least one selected node.
+     */
+     expandParentsInMenuForSelected: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
      * Whether to enable flat mode or not. Non-flat mode (default) means:
      *   - Whenever a branch node gets checked, all its children will be checked too
      *   - Whenever a branch node has all children checked, the branch node itself will be checked too
      * Set `true` to disable this mechanism
      */
     flat: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
+     * Only show the nodes that match the search value directly, excluding its ancestors.
+     *
+     * @type {Object}
+     */
+     flattenSearchResults: {
       type: Boolean,
       default: false,
     },
@@ -536,6 +536,16 @@ export default {
     },
 
     /**
+     * Set selected option to the center of the menu, if possible
+     * 
+     * @remark If it is set than save scroll position won't work
+     */
+    scrollPositionOnCenter: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
      * Enable searching feature?
      */
     searchable: {
@@ -598,6 +608,16 @@ export default {
      * @type {boolean}
      */
     showCountOnSearch: null,
+
+    /**
+     * If there is no selection than this node will be shown in menu if you open it.
+     * 
+     * @remark - If set than save scroll position won't work.
+     */
+    showNodeWhenNoSelection: {
+      type: String,
+      default: null
+    },
 
     /**
      * In which order the selected options should be displayed in trigger & sorted in `value` array.
@@ -907,6 +927,7 @@ export default {
       const nodeIdsFromValue = this.extractCheckedNodeIdsFromValue()
       const hasChanged = quickDiff(nodeIdsFromValue, this.internalValue)
       if (hasChanged) this.fixSelectedNodeIds(nodeIdsFromValue)
+      this.showDefaultNodeIfNoSelection()
     },
   },
 
@@ -976,6 +997,7 @@ export default {
       if(this.expandParentsInMenuForSelected) {
         this.expandParentNodesOfSelected()
       }
+      this.$nextTick(this.showDefaultNodeIfNoSelection);
     },
 
     getInstanceId() {
@@ -1500,6 +1522,9 @@ export default {
       this.$nextTick(this.restoreMenuScrollPosition)
       if (!this.options && !this.async) this.loadRootOptions()
       this.toggleClickOutsideEvent(true)
+      if (this.scrollPositionOnCenter) {
+        this.$nextTick(this.scrollMenuOnCenter);
+      }
       this.$emit('open', this.getInstanceId())
     },
 
@@ -1827,6 +1852,9 @@ export default {
       }
 
       if (this.localSearch.active && nextState && (this.single || this.clearOnSelect)) {
+        if (this.scrollPositionOnCenter) {
+          this.$nextTick(this.scrollMenuOnCenter);
+        }
         this.resetSearchQuery()
       }
 
@@ -1968,12 +1996,18 @@ export default {
     },
 
     saveMenuScrollPosition() {
+      if (this.scrollPositionOnCenter) { 
+        return 
+      }
       const $menu = this.getMenu()
       // istanbul ignore else
       if ($menu) this.menu.lastScrollPosition = $menu.scrollTop
     },
 
     restoreMenuScrollPosition() {
+      if (this.scrollPositionOnCenter) {
+        return
+      }
       const $menu = this.getMenu()
       // istanbul ignore else
       if ($menu) $menu.scrollTop = this.menu.lastScrollPosition
@@ -1992,6 +2026,35 @@ export default {
           ancestor.isExpanded = true;
         }
       }
+    },
+
+    scrollMenuToOption($option) {
+      const $menu = this.getMenu();
+      if ($option && $menu) {
+        const position = Math.max($option.offsetTop - (($menu.offsetHeight - $option.offsetHeight) / 2), 0);
+        $menu.scrollTop = position;
+      }
+    },
+
+    scrollMenuOnCenter() {
+      const $option = document.querySelector(".vue-treeselect__option--selected");
+      this.scrollMenuToOption($option)
+    },
+
+    showDefaultNodeIfNoSelection() {
+      if(this.forest.selectedNodeIds.length > 0
+        || !this.showNodeWhenNoSelection
+        || !this.forest.nodeMap[this.showNodeWhenNoSelection]) {
+        return
+      }
+
+      this.expandParentNodes([this.showNodeWhenNoSelection])
+      
+      this.$nextTick( () => {
+        const $option = document.querySelector(`.vue-treeselect__option[data-id="${this.showNodeWhenNoSelection}"]`) 
+        this.scrollMenuToOption($option)
+      })
+      
     }
   },
 

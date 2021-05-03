@@ -2015,6 +2015,59 @@ describe('Props', () => {
     })
   })
 
+  describe('scrollPositionOnCenter', () => {
+    it('first selected node should be visible even if nested [expandParentsInMenuForSelected=true] and [scrollPositionOnCenter=true] and if selection cleared than default node should become visible', async () => {
+      const wrapper = mount(Treeselect, {
+        propsData: {
+          multiple: true,
+          scrollPositionOnCenter: true,
+          expandParentsInMenuForSelected: true,
+          showNodeWhenNoSelection: 'bb',
+          options: [ {
+            id: 'a',
+            label: 'a',
+            children: [ {
+              id: 'aa',
+              label: 'aa',
+            }, {
+              id: 'ab',
+              label: 'ab',
+            } ],
+          }, {
+            id: 'b',
+            label: 'b',
+            children: [ {
+              id: 'ba',
+              label: 'ba',
+            }, {
+              id: 'bb',
+              label: 'bb',
+            } ],
+          } ],
+          value: [ 'ab' ],
+        },
+      })
+
+      const { vm } = wrapper
+
+      expect(vm.forest.selectedNodeMap.a).toBe(undefined)
+      expect(vm.forest.selectedNodeMap.aa).toBe(undefined)
+      expect(vm.forest.selectedNodeMap.ab).toBe(true)
+      expect(vm.forest.selectedNodeMap.b).toBe(undefined)
+      expect(vm.forest.selectedNodeIds.length).toBe(1)
+
+      vm.openMenu()
+      await vm.$nextTick()
+
+      expect(wrapper.contains('.vue-treeselect__option[data-id="ab"]')).toBe(true)
+      expect(wrapper.contains('.vue-treeselect__option[data-id="bb"]')).toBe(false)
+
+      wrapper.setProps({ value: [] })
+      await vm.$nextTick()
+      expect(wrapper.contains('.vue-treeselect__option[data-id="bb"]')).toBe(true)
+    })
+  })
+
   describe('searchable', () => {
     describe('when searchable=true', () => {
       describe('when multiple=true', () => {

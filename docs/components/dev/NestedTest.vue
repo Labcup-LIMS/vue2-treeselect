@@ -1,5 +1,12 @@
 <template>
-  <treeselect :options="options" :multiple="true" v-model="selected" :expandParentsInMenuForSelected="true" />
+  <treeselect
+    :options="options"
+    :multiple="true"
+    v-model="selected"
+    :expandParentsInMenuForSelected="true"
+    :scrollPositionOnCenter="true"
+    :showNodeWhenNoSelection="'bbc'"
+    :always-open="false"/>
 </template>
 
 <script>
@@ -7,8 +14,8 @@
 
   export default {
     data: () => ({
-      options: generateOptions(3),
-      selected: ['aaa', 'bbb', 'ccc']
+      options: generateOptions(3, 5),
+      selected: ['eec']
     }),
   }
 </script>

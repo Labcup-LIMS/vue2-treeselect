@@ -24,6 +24,7 @@ if NODE_ENV !== 'production'
   +subsection('Nested option selected by default Test')
     :markdown-it
       Checklist:
-        - If open the menu all the selected options ('aaa','bbb','ccc') should be visible in the menu
+        - If open the menu all the selected option ('eec') should be visible in the menu when first open
         - Their respected parents should be opened
+        - If selection cleared than node ('bbc') should be visible (scrolled there) and their parents should be expanded
     +component('NestedTest')
