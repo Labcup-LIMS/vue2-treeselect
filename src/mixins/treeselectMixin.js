@@ -926,7 +926,10 @@ export default {
     value() {
       const nodeIdsFromValue = this.extractCheckedNodeIdsFromValue()
       const hasChanged = quickDiff(nodeIdsFromValue, this.internalValue)
-      if (hasChanged) this.fixSelectedNodeIds(nodeIdsFromValue)
+      if (hasChanged) {
+        this.fixSelectedNodeIds(nodeIdsFromValue)
+        this.expandParentNodesOfSelected()
+      }
       this.showDefaultNodeIfNoSelection()
     },
   },
@@ -994,9 +997,7 @@ export default {
       } else {
         this.forest.normalizedOptions = []
       }
-      if(this.expandParentsInMenuForSelected) {
-        this.expandParentNodesOfSelected()
-      }
+      this.expandParentNodesOfSelected()
       this.$nextTick(this.showDefaultNodeIfNoSelection);
     },
 
@@ -1843,9 +1844,7 @@ export default {
       this.buildForestState()
 
       if (nextState) {
-        if(this.expandParentsInMenuForSelected) {
-          this.expandParentNodesOfSelected()
-        }
+        this.expandParentNodesOfSelected()
         this.$emit('select', node.raw, this.getInstanceId())
       } else {
         this.$emit('deselect', node.raw, this.getInstanceId())
@@ -2014,6 +2013,9 @@ export default {
     },
 
     expandParentNodesOfSelected() {
+      if (!this.expandParentsInMenuForSelected) {
+        return
+      }
       this.expandParentNodes(this.forest.selectedNodeIds)
     },
 
