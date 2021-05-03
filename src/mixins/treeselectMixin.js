@@ -271,6 +271,15 @@ export default {
     },
 
     /**
+     * If there are any selected node it should be visible so its parents should be expanded.
+     * Useful if you have initiate the control with at least one selected node.
+     */
+    expandParentsInMenuForSelected: {
+      type: Boolean,
+      default: false,
+    },
+
+    /**
      * Only show the nodes that match the search value directly, excluding its ancestors.
      *
      * @type {Object}
@@ -963,6 +972,9 @@ export default {
         this.fixSelectedNodeIds(this.internalValue)
       } else {
         this.forest.normalizedOptions = []
+      }
+      if(this.expandParentsInMenuForSelected) {
+        this.expandParentNodesOfSelected()
       }
     },
 
@@ -1806,6 +1818,9 @@ export default {
       this.buildForestState()
 
       if (nextState) {
+        if(this.expandParentsInMenuForSelected) {
+          this.expandParentNodesOfSelected()
+        }
         this.$emit('select', node.raw, this.getInstanceId())
       } else {
         this.$emit('deselect', node.raw, this.getInstanceId())
@@ -1963,6 +1978,21 @@ export default {
       // istanbul ignore else
       if ($menu) $menu.scrollTop = this.menu.lastScrollPosition
     },
+
+    expandParentNodesOfSelected() {
+      this.expandParentNodes(this.forest.selectedNodeIds)
+    },
+
+    /**
+     * @param nodeIds - an array containing the node(s)'s id(s) whom parent(s) should be expanded
+     */
+    expandParentNodes(nodeIds) {
+      for (const id of nodeIds) {
+        for (const ancestor of this.forest.nodeMap[id].ancestors) {
+          ancestor.isExpanded = true;
+        }
+      }
+    }
   },
 
   created() {

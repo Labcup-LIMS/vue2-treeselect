@@ -1427,6 +1427,48 @@ describe('Props', () => {
     })
   })
 
+  describe('expandParentsInMenuForSelected', () => {
+    it('should expand parent of selected nodes', () => {
+      const wrapper = mount(Treeselect, {
+        propsData: {
+          expandParentsInMenuForSelected: true,
+          multiple: true,
+          options: [ {
+            id: 'a',
+            label: 'a',
+            children: [ {
+              id: 'aa',
+              label: 'aa',
+            } ],
+          },
+          {
+            id: 'b',
+            label: 'b',
+            children: [ {
+              id: 'ba',
+              label: 'ba',
+            } ],
+          } ],
+          value: [ 'aa', 'ba' ],
+        },
+      })
+      const { vm } = wrapper
+
+      expect(vm.isSelected(vm.forest.nodeMap.a)).toBe(false)
+      expect(vm.isSelected(vm.forest.nodeMap.aa)).toBe(true)
+      expect(vm.isSelected(vm.forest.nodeMap.b)).toBe(false)
+      expect(vm.isSelected(vm.forest.nodeMap.ba)).toBe(true)
+      expect(vm.forest.nodeMap.a.isExpanded).toBe(true)
+      expect(vm.forest.nodeMap.b.isExpanded).toBe(true)
+      expect(vm.forest.checkedStateMap).toEqual({
+        a: INDETERMINATE,
+        aa: CHECKED,
+        b: INDETERMINATE,
+        ba: CHECKED,
+      })
+    })
+  })
+
   describe('flat', () => {
     it('must be used in conjunction with `multiple=true`', () => {
       spyOn(console, 'error')

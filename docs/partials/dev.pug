@@ -20,3 +20,10 @@ if NODE_ENV !== 'production'
 
   +subsection('Long Label Test')
     +component('LongLabelTest')
+
+  +subsection('Nested option selected by default Test')
+    :markdown-it
+      Checklist:
+        - If open the menu all the selected options ('aaa','bbb','ccc') should be visible in the menu
+        - Their respected parents should be opened
+    +component('NestedTest')
