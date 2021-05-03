@@ -538,6 +538,12 @@ var MENU_BUFFER = 40;
 
 
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -686,10 +692,6 @@ var instanceId = 0;
       type: String,
       default: ','
     },
-    flattenSearchResults: {
-      type: Boolean,
-      default: false
-    },
     disableBranchNodes: {
       type: Boolean,
       default: false
@@ -702,7 +704,15 @@ var instanceId = 0;
       type: Boolean,
       default: false
     },
+    expandParentsInMenuForSelected: {
+      type: Boolean,
+      default: false
+    },
     flat: {
+      type: Boolean,
+      default: false
+    },
+    flattenSearchResults: {
       type: Boolean,
       default: false
     },
@@ -807,6 +817,10 @@ var instanceId = 0;
       type: String,
       default: 'Click to retry'
     },
+    scrollPositionOnCenter: {
+      type: Boolean,
+      default: false
+    },
     searchable: {
       type: Boolean,
       default: true
@@ -836,6 +850,10 @@ var instanceId = 0;
       }
     },
     showCountOnSearch: null,
+    showNodeWhenNoSelection: {
+      type: String,
+      default: null
+    },
     sortValueBy: {
       type: String,
       default: ORDER_SELECTED,
@@ -1028,6 +1046,7 @@ var instanceId = 0;
       var nodeIdsFromValue = this.extractCheckedNodeIdsFromValue();
       var hasChanged = quickDiff(nodeIdsFromValue, this.internalValue);
       if (hasChanged) this.fixSelectedNodeIds(nodeIdsFromValue);
+      this.showDefaultNodeIfNoSelection();
     }
   },
   methods: {
@@ -1082,6 +1101,12 @@ var instanceId = 0;
       } else {
         this.forest.normalizedOptions = [];
       }
+
+      if (this.expandParentsInMenuForSelected) {
+        this.expandParentNodesOfSelected();
+      }
+
+      this.$nextTick(this.showDefaultNodeIfNoSelection);
     },
     getInstanceId: function getInstanceId() {
       return this.instanceId == null ? this.id : this.instanceId;
@@ -1566,6 +1591,11 @@ var instanceId = 0;
       this.$nextTick(this.restoreMenuScrollPosition);
       if (!this.options && !this.async) this.loadRootOptions();
       this.toggleClickOutsideEvent(true);
+
+      if (this.scrollPositionOnCenter) {
+        this.$nextTick(this.scrollMenuOnCenter);
+      }
+
       this.$emit('open', this.getInstanceId());
     },
     toggleMenu: function toggleMenu() {
@@ -1902,12 +1932,20 @@ var instanceId = 0;
       this.buildForestState();
 
       if (nextState) {
+        if (this.expandParentsInMenuForSelected) {
+          this.expandParentNodesOfSelected();
+        }
+
         this.$emit('select', node.raw, this.getInstanceId());
       } else {
         this.$emit('deselect', node.raw, this.getInstanceId());
       }
 
       if (this.localSearch.active && nextState && (this.single || this.clearOnSelect)) {
+        if (this.scrollPositionOnCenter) {
+          this.$nextTick(this.scrollMenuOnCenter);
+        }
+
         this.resetSearchQuery();
       }
 
@@ -2039,12 +2077,77 @@ var instanceId = 0;
       this.select(lastSelectedNode);
     },
     saveMenuScrollPosition: function saveMenuScrollPosition() {
+      if (this.scrollPositionOnCenter) {
+        return;
+      }
+
       var $menu = this.getMenu();
       if ($menu) this.menu.lastScrollPosition = $menu.scrollTop;
     },
     restoreMenuScrollPosition: function restoreMenuScrollPosition() {
+      if (this.scrollPositionOnCenter) {
+        return;
+      }
+
       var $menu = this.getMenu();
       if ($menu) $menu.scrollTop = this.menu.lastScrollPosition;
+    },
+    expandParentNodesOfSelected: function expandParentNodesOfSelected() {
+      this.expandParentNodes(this.forest.selectedNodeIds);
+    },
+    expandParentNodes: function expandParentNodes(nodeIds) {
+      var _iterator = _createForOfIteratorHelper(nodeIds),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var id = _step.value;
+
+          var _iterator2 = _createForOfIteratorHelper(this.forest.nodeMap[id].ancestors),
+              _step2;
+
+          try {
+            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+              var ancestor = _step2.value;
+              ancestor.isExpanded = true;
+            }
+          } catch (err) {
+            _iterator2.e(err);
+          } finally {
+            _iterator2.f();
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+    },
+    scrollMenuToOption: function scrollMenuToOption($option) {
+      var $menu = this.getMenu();
+
+      if ($option && $menu) {
+        var position = Math.max($option.offsetTop - ($menu.offsetHeight - $option.offsetHeight) / 2, 0);
+        $menu.scrollTop = position;
+      }
+    },
+    scrollMenuOnCenter: function scrollMenuOnCenter() {
+      var $option = document.querySelector(".vue-treeselect__option--selected");
+      this.scrollMenuToOption($option);
+    },
+    showDefaultNodeIfNoSelection: function showDefaultNodeIfNoSelection() {
+      var _this23 = this;
+
+      if (this.forest.selectedNodeIds.length > 0 || !this.showNodeWhenNoSelection || !this.forest.nodeMap[this.showNodeWhenNoSelection]) {
+        return;
+      }
+
+      this.expandParentNodes([this.showNodeWhenNoSelection]);
+      this.$nextTick(function () {
+        var $option = document.querySelector(".vue-treeselect__option[data-id=\"".concat(_this23.showNodeWhenNoSelection, "\"]"));
+
+        _this23.scrollMenuToOption($option);
+      });
     }
   },
   created: function created() {
