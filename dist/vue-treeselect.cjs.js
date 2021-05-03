@@ -1045,7 +1045,12 @@ var instanceId = 0;
     value: function value() {
       var nodeIdsFromValue = this.extractCheckedNodeIdsFromValue();
       var hasChanged = quickDiff(nodeIdsFromValue, this.internalValue);
-      if (hasChanged) this.fixSelectedNodeIds(nodeIdsFromValue);
+
+      if (hasChanged) {
+        this.fixSelectedNodeIds(nodeIdsFromValue);
+        this.expandParentNodesOfSelected();
+      }
+
       this.showDefaultNodeIfNoSelection();
     }
   },
@@ -1102,10 +1107,7 @@ var instanceId = 0;
         this.forest.normalizedOptions = [];
       }
 
-      if (this.expandParentsInMenuForSelected) {
-        this.expandParentNodesOfSelected();
-      }
-
+      this.expandParentNodesOfSelected();
       this.$nextTick(this.showDefaultNodeIfNoSelection);
     },
     getInstanceId: function getInstanceId() {
@@ -1932,10 +1934,7 @@ var instanceId = 0;
       this.buildForestState();
 
       if (nextState) {
-        if (this.expandParentsInMenuForSelected) {
-          this.expandParentNodesOfSelected();
-        }
-
+        this.expandParentNodesOfSelected();
         this.$emit('select', node.raw, this.getInstanceId());
       } else {
         this.$emit('deselect', node.raw, this.getInstanceId());
@@ -2093,6 +2092,10 @@ var instanceId = 0;
       if ($menu) $menu.scrollTop = this.menu.lastScrollPosition;
     },
     expandParentNodesOfSelected: function expandParentNodesOfSelected() {
+      if (!this.expandParentsInMenuForSelected) {
+        return;
+      }
+
       this.expandParentNodes(this.forest.selectedNodeIds);
     },
     expandParentNodes: function expandParentNodes(nodeIds) {
