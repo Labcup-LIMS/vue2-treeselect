@@ -866,6 +866,10 @@ var instanceId = 0;
       type: Number,
       default: 0
     },
+    useOnlyIsDisabled: {
+      type: Boolean,
+      default: false
+    },
     value: null,
     valueConsistsOf: {
       type: String,
@@ -1041,6 +1045,9 @@ var instanceId = 0;
       }
 
       this.$emit('search-change', this.trigger.searchQuery, this.getInstanceId());
+    },
+    useOnlyIsDisabled: function useOnlyIsDisabled() {
+      this.initialize();
     },
     value: function value() {
       var nodeIdsFromValue = this.extractCheckedNodeIdsFromValue();
@@ -1675,7 +1682,7 @@ var instanceId = 0;
         var level = isRootNode ? 0 : parentNode.level + 1;
         var isBranch = Array.isArray(children) || children === null;
         var isLeaf = !isBranch;
-        var isDisabled = !!node.isDisabled || !_this16.flat && !isRootNode && parentNode.isDisabled;
+        var isDisabled = _this16.useOnlyIsDisabled ? !!node.isDisabled : !!node.isDisabled || !_this16.flat && !isRootNode && parentNode.isDisabled;
         var isNew = !!node.isNew;
 
         var lowerCased = _this16.matchKeys.reduce(function (prev, key) {
