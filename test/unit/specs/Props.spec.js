@@ -2421,6 +2421,55 @@ describe('Props', () => {
     })
   })
 
+  describe('useOnlyIsDisabled', () => {
+    let wrapper
+    beforeEach(() => {
+      wrapper = mount(Treeselect, {
+        propsData: {
+          useOnlyIsDisabled: true,
+          options: [ {
+            id: 'a',
+            label: 'a',
+            children: [ {
+              id: 'aa',
+              label: 'aa',
+              isDisabled: true,
+              children: [ {
+                id: 'aaa',
+                label: 'aaa',
+              } ],
+            } ],
+          } ],
+          value: 'aaa',
+        },
+      })
+    })
+
+    it('when [useOnlyIsDisabled=false]', () => {
+      wrapper.setProps({ useOnlyIsDisabled: false })
+
+      const { vm } = wrapper
+
+      expect(vm.forest.selectedNodeIds.length).toBe(1)
+      expect(vm.forest.selectedNodeMap.aaa).toBe(true)
+
+      expect(vm.forest.nodeMap.a.isDisabled).toBe(false)
+      expect(vm.forest.nodeMap.aa.isDisabled).toBe(true)
+      expect(vm.forest.nodeMap.aaa.isDisabled).toBe(true)
+    })
+
+    it('when [useOnlyIsDisabled=true]', () => {
+      const { vm } = wrapper
+
+      expect(vm.forest.selectedNodeIds.length).toBe(1)
+      expect(vm.forest.selectedNodeMap.aaa).toBe(true)
+
+      expect(vm.forest.nodeMap.a.isDisabled).toBe(false)
+      expect(vm.forest.nodeMap.aa.isDisabled).toBe(true)
+      expect(vm.forest.nodeMap.aaa.isDisabled).toBe(false)
+    })
+  })
+
   describe('valueConsistsOf', () => {
     let wrapper, vm
 

@@ -645,6 +645,17 @@ export default {
     },
 
     /**
+     * For node disable state use only isDisabled property.
+     * 
+     * This is useful when we are not in flat mode and want have selectable nodes of a disabled parent.
+     * By default in non-flat mode if a node has a disabled parent it will be disabled also.
+     */
+    useOnlyIsDisabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /**
      * The value of the control.
      * Should be `id` or `node` object for single-select mode, or an array of `id` or `node` object for multi-select mode.
      * Its format depends on the `valueFormat` prop.
@@ -921,6 +932,10 @@ export default {
       }
 
       this.$emit('search-change', this.trigger.searchQuery, this.getInstanceId())
+    },
+
+    useOnlyIsDisabled() {
+      this.initialize()
     },
 
     value() {
@@ -1599,7 +1614,7 @@ export default {
           const level = isRootNode ? 0 : parentNode.level + 1
           const isBranch = Array.isArray(children) || children === null
           const isLeaf = !isBranch
-          const isDisabled = !!node.isDisabled || (!this.flat && !isRootNode && parentNode.isDisabled)
+          const isDisabled = this.useOnlyIsDisabled ? !!node.isDisabled : !!node.isDisabled || (!this.flat && !isRootNode && parentNode.isDisabled)
           const isNew = !!node.isNew
           const lowerCased = this.matchKeys.reduce((prev, key) => ({
             ...prev,

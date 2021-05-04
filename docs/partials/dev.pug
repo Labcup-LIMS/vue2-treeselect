@@ -28,3 +28,9 @@ if NODE_ENV !== 'production'
         - Their respected parents should be opened
         - If selection cleared than node ('bbc') should be visible (scrolled there) and their parents should be expanded
     +component('NestedTest')
+
+  +subsection('Use only isDisabled Test')
+    :markdown-it
+      Checklist:
+        - A disabled node should have an enabled child and that should be selectable 
+    +component('UseOnlyIsDisabledTest')
