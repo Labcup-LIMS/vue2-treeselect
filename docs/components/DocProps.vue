@@ -333,6 +333,11 @@
         defaultValue: code('0'),
         description: 'Tab index of the control.',
       }, {
+        name: 'useOnlyIsDisabled',
+        type: 'Boolean',
+        defaultValue: code('false'),
+        description: `To set the node disable state use only the ${node.isDisabled} property.<br>This is useful only in non-flat mode.`
+      }, {
         name: 'value',
         type: `${code('id')} | ${code('node')} | ${code('id[]')} | ${code('node[]')}`,
         defaultValue: NO_DEFAULT_VALUE,
