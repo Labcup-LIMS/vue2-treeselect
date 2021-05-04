@@ -5,8 +5,7 @@
     v-model="selected"
     :expandParentsInMenuForSelected="true"
     :scrollPositionOnCenter="true"
-    :showNodeWhenNoSelection="'bbc'"
-    :always-open="false"/>
+    :showNodeWhenNoSelection="'bbc'"/>
 </template>
 
 <script>
