@@ -2039,8 +2039,10 @@ export default {
      */
     expandParentNodes(nodeIds) {
       for (const id of nodeIds) {
-        for (const ancestor of this.forest.nodeMap[id].ancestors) {
-          ancestor.isExpanded = true;
+        if(this.forest.nodeMap[id]) {
+          for (const ancestor of this.forest.nodeMap[id].ancestors) {
+            ancestor.isExpanded = true;
+          }
         }
       }
     },
