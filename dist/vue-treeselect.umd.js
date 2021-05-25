@@ -3313,18 +3313,20 @@ var instanceId = 0;
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var id = _step.value;
 
-          var _iterator2 = _createForOfIteratorHelper(this.forest.nodeMap[id].ancestors),
-              _step2;
+          if (this.forest.nodeMap[id]) {
+            var _iterator2 = _createForOfIteratorHelper(this.forest.nodeMap[id].ancestors),
+                _step2;
 
-          try {
-            for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-              var ancestor = _step2.value;
-              ancestor.isExpanded = true;
+            try {
+              for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                var ancestor = _step2.value;
+                ancestor.isExpanded = true;
+              }
+            } catch (err) {
+              _iterator2.e(err);
+            } finally {
+              _iterator2.f();
             }
-          } catch (err) {
-            _iterator2.e(err);
-          } finally {
-            _iterator2.f();
           }
         }
       } catch (err) {
