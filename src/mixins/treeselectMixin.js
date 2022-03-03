@@ -1970,10 +1970,11 @@ export default {
       if (node.isBranch) {
         this.traverseDescendantsDFS(node, descendant => {
           if (!descendant.isDisabled || this.allowSelectingDisabledDescendants) {
-            this.removeValue(descendant)
+            this.removeValue(descendant, true)
             hasUncheckedSomeDescendants = true
           }
         })
+        this.forest.selectedNodeIds = Object.keys(this.forest.selectedNodeMap);
       }
 
       if (
@@ -1996,8 +1997,8 @@ export default {
       this.forest.selectedNodeMap[node.id] = true
     },
 
-    removeValue(node) {
-      removeFromArray(this.forest.selectedNodeIds, node.id)
+    removeValue(node, bulk) {
+      if (!bulk) removeFromArray(this.forest.selectedNodeIds, node.id)
       delete this.forest.selectedNodeMap[node.id]
     },
 
