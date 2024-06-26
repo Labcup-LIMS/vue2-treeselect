@@ -165,6 +165,7 @@
 
         this.portalTarget.$destroy()
         this.portalTarget = null
+        this.placeholder = null
       },
     },
 
