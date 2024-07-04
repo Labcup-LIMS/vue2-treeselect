@@ -29,6 +29,7 @@
 
         return {
           zIndex: instance.appendToBody ? null : instance.zIndex,
+          display: instance.menu.isOpen ? 'block' : 'none',
         }
       },
     },

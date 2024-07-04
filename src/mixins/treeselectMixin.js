@@ -298,7 +298,7 @@ export default {
      * If there are any selected node it should be visible so its parents should be expanded.
      * Useful if you have initiate the control with at least one selected node.
      */
-     expandParentsInMenuForSelected: {
+    expandParentsInMenuForSelected: {
       type: Boolean,
       default: false,
     },
@@ -319,7 +319,7 @@ export default {
      *
      * @type {Object}
      */
-     flattenSearchResults: {
+    flattenSearchResults: {
       type: Boolean,
       default: false,
     },
@@ -537,12 +537,12 @@ export default {
 
     /**
      * Set selected option to the center of the menu, if possible
-     * 
+     *
      * @remark If it is set than save scroll position won't work
      */
     scrollPositionOnCenter: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     /**
@@ -611,12 +611,12 @@ export default {
 
     /**
      * If there is no selection than this node will be shown in menu if you open it.
-     * 
+     *
      * @remark - If set than save scroll position won't work.
      */
     showNodeWhenNoSelection: {
       type: String,
-      default: null
+      default: null,
     },
 
     /**
@@ -646,13 +646,13 @@ export default {
 
     /**
      * For node disable state use only isDisabled property.
-     * 
+     *
      * This is useful when we are not in flat mode and want have selectable nodes of a disabled parent.
      * By default in non-flat mode if a node has a disabled parent it will be disabled also.
      */
     useOnlyIsDisabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     /**
@@ -1013,7 +1013,7 @@ export default {
         this.forest.normalizedOptions = []
       }
       this.expandParentNodesOfSelected()
-      this.$nextTick(this.showDefaultNodeIfNoSelection);
+      this.$nextTick(this.showDefaultNodeIfNoSelection)
     },
 
     getInstanceId() {
@@ -1260,7 +1260,10 @@ export default {
 
     handleClickOutside(evt) {
       // istanbul ignore else
-      if (this.$refs.wrapper && !this.$refs.wrapper.contains(evt.target)) {
+      if (
+        this.$refs.wrapper && !this.$refs.wrapper.contains(evt.target)
+        && (!this.$refs.portal || !this.$refs.portal.portalTarget || !this.$refs.portal.portalTarget.$el.contains(evt.target))
+      ) {
         this.blurInput()
         this.closeMenu()
       }
@@ -1539,7 +1542,7 @@ export default {
       if (!this.options && !this.async) this.loadRootOptions()
       this.toggleClickOutsideEvent(true)
       if (this.scrollPositionOnCenter) {
-        this.$nextTick(this.scrollMenuOnCenter);
+        this.$nextTick(this.scrollMenuOnCenter)
       }
       this.$emit('open', this.getInstanceId())
     },
@@ -1867,7 +1870,7 @@ export default {
 
       if (this.localSearch.active && nextState && (this.single || this.clearOnSelect)) {
         if (this.scrollPositionOnCenter) {
-          this.$nextTick(this.scrollMenuOnCenter);
+          this.$nextTick(this.scrollMenuOnCenter)
         }
         this.resetSearchQuery()
       }
@@ -1974,7 +1977,7 @@ export default {
             hasUncheckedSomeDescendants = true
           }
         })
-        this.forest.selectedNodeIds = Object.keys(this.forest.selectedNodeMap);
+        this.forest.selectedNodeIds = Object.keys(this.forest.selectedNodeMap)
       }
 
       if (
@@ -2011,8 +2014,8 @@ export default {
     },
 
     saveMenuScrollPosition() {
-      if (this.scrollPositionOnCenter) { 
-        return 
+      if (this.scrollPositionOnCenter) {
+        return
       }
       const $menu = this.getMenu()
       // istanbul ignore else
@@ -2040,42 +2043,41 @@ export default {
      */
     expandParentNodes(nodeIds) {
       for (const id of nodeIds) {
-        if(this.forest.nodeMap[id]) {
+        if (this.forest.nodeMap[id]) {
           for (const ancestor of this.forest.nodeMap[id].ancestors) {
-            ancestor.isExpanded = true;
+            ancestor.isExpanded = true
           }
         }
       }
     },
 
     scrollMenuToOption($option) {
-      const $menu = this.getMenu();
+      const $menu = this.getMenu()
       if ($option && $menu) {
-        const position = Math.max($option.offsetTop - (($menu.offsetHeight - $option.offsetHeight) / 2), 0);
-        $menu.scrollTop = position;
+        const position = Math.max($option.offsetTop - (($menu.offsetHeight - $option.offsetHeight) / 2), 0)
+        $menu.scrollTop = position
       }
     },
 
     scrollMenuOnCenter() {
-      const $option = document.querySelector(".vue-treeselect__option--selected");
+      const $option = document.querySelector('.vue-treeselect__option--selected')
       this.scrollMenuToOption($option)
     },
 
     showDefaultNodeIfNoSelection() {
-      if(this.forest.selectedNodeIds.length > 0
+      if (this.forest.selectedNodeIds.length > 0
         || !this.showNodeWhenNoSelection
         || !this.forest.nodeMap[this.showNodeWhenNoSelection]) {
         return
       }
 
-      this.expandParentNodes([this.showNodeWhenNoSelection])
-      
-      this.$nextTick( () => {
-        const $option = document.querySelector(`.vue-treeselect__option[data-id="${this.showNodeWhenNoSelection}"]`) 
+      this.expandParentNodes([ this.showNodeWhenNoSelection ])
+
+      this.$nextTick(() => {
+        const $option = document.querySelector(`.vue-treeselect__option[data-id="${this.showNodeWhenNoSelection}"]`)
         this.scrollMenuToOption($option)
       })
-      
-    }
+    },
   },
 
   created() {

@@ -701,6 +701,9 @@
   width: 100%;
   overflow: visible;
   transition: 0s;
+  overflow: hidden;
+  resize: both;
+  min-height: 150px;
 
   .vue-treeselect--open-below:not(.vue-treeselect--append-to-body) & {
     top: 100%;
@@ -726,6 +729,8 @@
   line-height: @treeselect-menu-line-height;
   // https://css-tricks.com/snippets/css/momentum-scrolling-on-ios-overflow-elements/
   -webkit-overflow-scrolling: touch;
+  height: 100%;
+  max-height: none !important;
 
   .vue-treeselect--open-below & {
     .border-radius-bottom(@treeselect-border-radius-lg);

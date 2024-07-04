@@ -391,6 +391,9 @@
   width: 100%;
   overflow: visible;
   transition: 0s;
+  overflow: hidden;
+  resize: both;
+  min-height: 150px;
 }
 .vue-treeselect--open-below:not(.vue-treeselect--append-to-body) .vue-treeselect__menu-container {
   top: 100%;
@@ -411,6 +414,8 @@
   background: #fff;
   line-height: 180%;
   -webkit-overflow-scrolling: touch;
+  height: 100%;
+  max-height: none !important;
 }
 .vue-treeselect--open-below .vue-treeselect__menu {
   border-bottom-left-radius: 5px;
