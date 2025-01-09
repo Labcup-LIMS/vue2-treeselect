@@ -346,7 +346,7 @@
         name: 'useOnlyIsDisabled',
         type: 'Boolean',
         defaultValue: code('false'),
-        description: `To set the node disable state use only the ${code('node.isDisabled')} property.<br>This is useful only in non-flat mode.`
+        description: `To set the node disable state use only the ${code('node.isDisabled')} property.<br>This is useful only in non-flat mode.`,
       }, {
         name: 'value',
         type: `${code('id')} | ${code('node')} | ${code('id[]')} | ${code('node[]')}`,
