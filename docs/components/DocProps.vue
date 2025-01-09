@@ -308,6 +308,16 @@
         defaultValue: code('"Type to search..."'),
         description: `Text tip to prompt for async search. Used for ${link('#async-searching', 'async search mode')}.`,
       }, {
+        name: 'selectParent',
+        type: 'Boolean',
+        defaultValue: code('true'),
+        description: [
+          `In non flat mode when all the children are selected, should the parent also selected or not.`,
+          `Possible values:`,
+          `${code('true')} - means the parent should be selected too`,
+          `${code('false')} - means the parent should not be selected`,
+        ].join('<br>'),
+      }, {
         name: 'showCount',
         type: 'Boolean',
         defaultValue: code('false'),
@@ -336,7 +346,7 @@
         name: 'useOnlyIsDisabled',
         type: 'Boolean',
         defaultValue: code('false'),
-        description: `To set the node disable state use only the ${node.isDisabled} property.<br>This is useful only in non-flat mode.`
+        description: `To set the node disable state use only the ${code('node.isDisabled')} property.<br>This is useful only in non-flat mode.`
       }, {
         name: 'value',
         type: `${code('id')} | ${code('node')} | ${code('id[]')} | ${code('node[]')}`,

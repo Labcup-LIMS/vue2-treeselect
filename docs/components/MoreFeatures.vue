@@ -16,6 +16,7 @@
         :options="options"
         :limit="3"
         :max-height="200"
+        :select-parent="selectParent"
         v-model="value"
         />
     </div>
@@ -39,6 +40,9 @@
       <label><input type="checkbox" v-model="appendToBody">Append to body</label>
       <label><input type="checkbox" v-model="rtl">RTL mode</label>
     </p>
+    <p>
+      <label><input type="checkbox" v-model="selectParent">Select parent</label>
+    </p>
   </div>
 </template>
 
@@ -57,6 +61,7 @@
       closeOnSelect: false,
       alwaysOpen: false,
       appendToBody: false,
+      selectParent: true,
       rtl: false,
       value: [ 'a' ],
       options: generateOptions(2, 3),

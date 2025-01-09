@@ -306,7 +306,9 @@ export default {
     /**
      * Whether to enable flat mode or not. Non-flat mode (default) means:
      *   - Whenever a branch node gets checked, all its children will be checked too
-     *   - Whenever a branch node has all children checked, the branch node itself will be checked too
+     *   - Whenever a branch node has all children checked, the branch node itself will be checked too by default.
+     *   See selectParent prop for other behavior.
+     *
      * Set `true` to disable this mechanism
      */
     flat: {
@@ -575,6 +577,17 @@ export default {
     searchPromptText: {
       type: String,
       default: 'Type to search...',
+    },
+
+    /**
+     * In non flat mode when all the children are selected what should be happen.
+     * Values:
+     *  - `true` - means the parent should be selected too
+     *  - `false` - means the parent should not be selected
+     */
+    selectParent: {
+      type: [ Boolean, Function ],
+      default: true,
     },
 
     /**
@@ -1938,7 +1951,7 @@ export default {
         })
       }
 
-      if (isFullyChecked) {
+      if (isFullyChecked && this.selectParent) {
         let curr = node
         while ((curr = curr.parentNode) !== NO_PARENT_NODE) {
           if (curr.children.every(this.isSelected)) this.addValue(curr)
