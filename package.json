@@ -1,6 +1,6 @@
 {
   "name": "@riophae/vue-treeselect",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A multi-select component with nested options support for Vue.js",
   "author": "Riophae Lee <riophaelee@gmail.com>",
   "license": "MIT",
@@ -74,7 +74,7 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "gh-pages": "^2.0.0",
     "html-webpack-plugin": "^3.1.0",
-    "http-server": "^0.11.1",
+    "http-server": "^14.1.1",
     "jasmine-core": "^3.1.0",
     "jstransformer-markdown-it": "^2.0.0",
     "karma": "^4.0.0",
