@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { LOAD_CHILDREN_OPTIONS } from '@riophae/vue-treeselect'
+  import { LOAD_CHILDREN_OPTIONS } from '@labcup-lims/vue2-treeselect'
 
   // We just use `setTimeout()` here to simulate an async operation
   // instead of requesting a real API server for demo purpose.

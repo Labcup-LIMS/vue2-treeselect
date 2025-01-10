@@ -1,11 +1,11 @@
-# vue-treeselect
-[![npm](https://badgen.now.sh/npm/v/@riophae/vue-treeselect)](https://www.npmjs.com/package/@riophae/vue-treeselect) [![Build](https://badgen.now.sh/circleci/github/riophae/vue-treeselect)](https://circleci.com/gh/riophae/vue-treeselect/tree/master) [![Coverage](https://badgen.net/codecov/c/github/riophae/vue-treeselect)](https://codecov.io/gh/riophae/vue-treeselect?branch=master)
-![npm monthly downloads](https://badgen.now.sh/npm/dm/@riophae/vue-treeselect)
-![jsDelivr monthly hits](https://badgen.net/jsdelivr/hits/npm/@riophae/vue-treeselect) [![Known vulnerabilities](https://snyk.io/test/npm/@riophae/vue-treeselect/badge.svg)](https://snyk.io/test/npm/@riophae/vue-treeselect) ![License](https://badgen.net/github/license/riophae/vue-treeselect)
+# vue2-treeselect
+[![npm](https://badgen.now.sh/npm/v/@labcup-lims/vue2-treeselect)](https://www.npmjs.com/package/@labcup-lims/vue2-treeselect) [![Build](https://badgen.now.sh/circleci/github/labcup-lims/vue2-treeselect)](https://circleci.com/gh/labcup-lims/vue2-treeselect/tree/master)
+![npm monthly downloads](https://badgen.now.sh/npm/dm/@labcup-lims/vue2-treeselect)
+![jsDelivr monthly hits](https://badgen.net/jsdelivr/hits/npm/@labcup-lims/vue2-treeselect) [![Known vulnerabilities](https://snyk.io/test/npm/@labcup-lims/vue2-treeselect/badge.svg)](https://snyk.io/test/npm/@labcup-lims/vue2-treeselect) ![License](https://badgen.net/github/license/labcup-lims/vue2-treeselect)
 
-> A multi-select component with nested options support for Vue.js
+> A multi-select component with nested options support for Vue.js (v2)
 
-![Vue-Treeselect Screenshot](https://raw.githubusercontent.com/riophae/vue-treeselect/master/screenshot.png)
+![Vue2-Treeselect Screenshot](https://raw.githubusercontent.com/riophae/vue-treeselect/master/screenshot.png)
 
 ### Features
 
@@ -22,16 +22,15 @@
 
 ### Getting Started
 
-It's recommended to install vue-treeselect via npm, and build your app using a bundler like [webpack](https://webpack.js.org/).
+It's recommended to install vue2-treeselect via npm, and build your app using a bundler like [webpack](https://webpack.js.org/).
 
 ```bash
-npm install --save @riophae/vue-treeselect
+npm install --save @labcup-lims/vue2-treeselect
 ```
 
-This example shows how to integrate vue-treeselect with your [Vue SFCs](https://vuejs.org/v2/guide/single-file-components.html).
+This example shows how to integrate vue2-treeselect with your [Vue SFCs](https://vuejs.org/v2/guide/single-file-components.html).
 
 ```vue
-<!-- Vue SFC -->
 <template>
   <div id="app">
     <treeselect v-model="value" :multiple="true" :options="options" />
@@ -40,9 +39,9 @@ This example shows how to integrate vue-treeselect with your [Vue SFCs](https://
 
 <script>
   // import the component
-  import Treeselect from '@riophae/vue-treeselect'
+  import Treeselect from '@labcup-lims/vue2-treeselect'
   // import the styles
-  import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import '@labcup-lims/vue2-treeselect/dist/vue2-treeselect.css'
 
   export default {
     // register the component
@@ -75,16 +74,16 @@ This example shows how to integrate vue-treeselect with your [Vue SFCs](https://
 </script>
 ```
 
-If you just don't want to use webpack or any other bundlers, you can simply include the standalone UMD build in your page. In this way, make sure Vue as a dependency is included before vue-treeselect.
+If you just don't want to use webpack or any other bundlers, you can simply include the standalone UMD build in your page. In this way, make sure Vue as a dependency is included before vue2-treeselect.
 
 ```html
 <html>
   <head>
     <!-- include Vue 2.x -->
     <script src="https://cdn.jsdelivr.net/npm/vue@^2"></script>
-    <!-- include vue-treeselect & its styles. you can change the version tag to better suit your needs. -->
-    <script src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
+    <!-- include vue2-treeselect & its styles. you can change the version tag to better suit your needs. -->
+    <script src="https://cdn.jsdelivr.net/npm/@labcup-lims/vue2-treeselect@^0.5.2/dist/vue2-treeselect.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@labcup-lims/vue2-treeselect@^0.5.2/dist/vue2-treeselect.min.css">
   </head>
   <body>
     <div id="app">
@@ -142,7 +141,7 @@ It should function well on IE9, but the style can be slightly broken due to the 
 
 ### Bugs
 
-You can use this [pen](https://codepen.io/riophae/pen/MExgzP) to reproduce bugs and then [open an issue](https://github.com/riophae/vue-treeselect/issues/new).
+You can use this [pen](https://codepen.io/nagyjano/pen/qEWoNmE) to reproduce bugs and then [open an issue](https://github.com/labcup-lims/vue2-treeselect/issues/new).
 
 ### Contributing
 
@@ -167,6 +166,7 @@ Some icons used in this project:
 
 ### License
 
-Copyright (c) 2017-present [Riophae Lee](https://github.com/riophae).
+Copyright (c) 2017-2020 [Riophae Lee](https://github.com/riophae).
+Copyright (c) 2025-2025 [Labcup Ltd](https://github.com/labcup-lims).
 
-Released under the [MIT License](https://github.com/riophae/vue-treeselect/blob/master/LICENSE).
+Released under the [MIT License](https://github.com/labcup-lims/vue2-treeselect/blob/master/LICENSE).

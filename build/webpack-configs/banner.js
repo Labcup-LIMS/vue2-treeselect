@@ -1,7 +1,7 @@
 const { version } = require('../../package')
 
+const currentYear = new Date().getFullYear()
 module.exports = `
-vue-treeselect v${version} | (c) 2017-${new Date().getFullYear()} Riophae Lee
+vue2-treeselect v${version} | (c) 2017-${currentYear} Riophae Lee & 2025-${currentYear} Labcup Ltd
 Released under the MIT License.
-https://vue-treeselect.js.org/
 `.trim()

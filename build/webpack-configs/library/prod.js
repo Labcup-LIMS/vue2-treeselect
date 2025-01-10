@@ -11,7 +11,7 @@ module.exports = webpackConfig => merge(webpackConfig, {
   mode: 'production',
 
   output: {
-    filename: `vue-treeselect.${libraryTargetPlaceholder}.min.js`,
+    filename: `vue2-treeselect.${libraryTargetPlaceholder}.min.js`,
   },
 
   module: {
@@ -27,7 +27,7 @@ module.exports = webpackConfig => merge(webpackConfig, {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'vue-treeselect.min.css',
+      filename: 'vue2-treeselect.min.css',
       chunkFilename: '[id].css',
     }),
   ],

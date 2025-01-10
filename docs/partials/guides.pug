@@ -2,7 +2,7 @@
 
 +subsection('Basic Features')
   :markdown-it
-    This example demonstrates the most commonly-used features of vue-treeselect. Try the fuzzy matching functionality by typing a few letters.
+    This example demonstrates the most commonly-used features of vue2-treeselect. Try the fuzzy matching functionality by typing a few letters.
   +demo('BasicFeatures')
   :markdown-it
     The first thing you need to learn is how to define options. There are two types of options: **a. folder options** that are foldable & *may* have children options, and **b. normal options** that aren't & don't. Here, I'd like to borrow the basic concepts from Computer Science and call the former as *branch nodes* & the latter as *leaf nodes*. These two kinds of nodes together compose the tree.
@@ -50,17 +50,17 @@
       3. Whenever an unloaded branch node gets expanded, `loadOptions({ action, parentNode, callback, instanceId })` will be called, then you can perform the job requesting data from a remote server
   +demo('DelayedLoading')
   :markdown-it
-    It's also possible to have root level options to be delayed loaded. If no options have been initially registered (`options: null`), vue-treeselect will attempt to load root options by calling `loadOptions({ action, callback, instanceId })` after the component is mounted. In this example I have disabled the auto loading feature by setting `autoLoadRootOptions: false`, and the root options will be loaded when the menu is opened.
+    It's also possible to have root level options to be delayed loaded. If no options have been initially registered (`options: null`), vue2-treeselect will attempt to load root options by calling `loadOptions({ action, callback, instanceId })` after the component is mounted. In this example I have disabled the auto loading feature by setting `autoLoadRootOptions: false`, and the root options will be loaded when the menu is opened.
   +demo('DelayedRootOptions')
 
 +subsection('Async Searching')
   :markdown-it
-    vue-treeselect supports dynamically loading & changing the entire options list as the user types. By default, vue-treeselect will cache the result of each AJAX request, thus the user could wait less.
+    vue2-treeselect supports dynamically loading & changing the entire options list as the user types. By default, vue2-treeselect will cache the result of each AJAX request, thus the user could wait less.
   +demo('AsyncSearching')
 
 +subsection('Flat Mode & Sort Values')
   :markdown-it
-    In all previous examples, we used the default non-flat mode of vue-treeselect, which means:
+    In all previous examples, we used the default non-flat mode of vue2-treeselect, which means:
 
       1. Whenever a branch node gets checked, all its children will be checked too
       2. Whenever a branch node has all children checked, the branch node itself will be checked too
@@ -76,7 +76,7 @@
 
 +subsection('Prevent Value Combining')
   :markdown-it
-    For non-flat & multi-select mode, if a branch node and its all descendants are checked, vue-treeselect will combine them into a single item in the value array, as demonstrated in the following example. By using `valueConsistsOf` prop you can change that behavior. This prop has four options:
+    For non-flat & multi-select mode, if a branch node and its all descendants are checked, vue2-treeselect will combine them into a single item in the value array, as demonstrated in the following example. By using `valueConsistsOf` prop you can change that behavior. This prop has four options:
 
       - `"ALL"` - Any node that is checked will be included in the `value` array
       - `"BRANCH_PRIORITY"` (default) - If a branch node is checked, all its descendants will be excluded in the `value` array
@@ -111,12 +111,12 @@
 
 +subsection('Customize Key Names')
   :markdown-it
-    If your data of options is loaded via AJAX and have a different data structure than what vue-treeselect asks, e.g. your data has `name` property but vue-treeselect needs `label`, you may want to customize the key names. In this case, you can provide a function prop called `normalizer` which will be passed every node in the tree during data initialization. Use this function to create and return the transformed object.
+    If your data of options is loaded via AJAX and have a different data structure than what vue2-treeselect asks, e.g. your data has `name` property but vue2-treeselect needs `label`, you may want to customize the key names. In this case, you can provide a function prop called `normalizer` which will be passed every node in the tree during data initialization. Use this function to create and return the transformed object.
   +demo('CustomizeKeyNames')
 
 +subsection('Customize Option Label')
   :markdown-it
-    You can customize the label of each option. vue-treeselect utilizes Vue's [scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots) feature and provides some props you should use in your customized template:
+    You can customize the label of each option. vue2-treeselect utilizes Vue's [scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots) feature and provides some props you should use in your customized template:
 
     - `node` - a normalized node object (note that, this is differnt from what you return from `normalizer()` prop)
     - `count` & `shouldShowCount` - the count number and a boolean indicates whether the count should be displayed
@@ -125,14 +125,14 @@
 
 +subsection('Customize Value Label')
   :markdown-it
-    You can customize the label of value item (each item in case of multi-select). vue-treeselect utilizes Vue's [scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots) feature and provides some props you should use in your customized template:
+    You can customize the label of value item (each item in case of multi-select). vue2-treeselect utilizes Vue's [scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots) feature and provides some props you should use in your customized template:
 
     - `node` - a normalized node object (note that, this is differnt from what you return from `normalizer()` prop)
   +demo('CustomizeValueLabel')
 
 +subsection('Vuex Support')
   :markdown-it
-      In all previous examples, we used `v-model` to sync value between application state and vue-treeselect, a.k.a two-way data binding. If you are using Vuex, we could make use of `:value` and `@input`, since `v-model` is just a syntax sugar for them in Vue 2.
+      In all previous examples, we used `v-model` to sync value between application state and vue2-treeselect, a.k.a two-way data binding. If you are using Vuex, we could make use of `:value` and `@input`, since `v-model` is just a syntax sugar for them in Vue 2.
 
-      Concretely speaking, we can bind `getter` to `:value` to make vue-treeselect reflect any changes in your Vuex state, and bind `action` or `mutation` to `@input` to update your Vuex state whenever the value changes.
+      Concretely speaking, we can bind `getter` to `:value` to make vue2-treeselect reflect any changes in your Vuex state, and bind `action` or `mutation` to `@input` to update your Vuex state whenever the value changes.
   +demo('VuexSupport')

@@ -210,7 +210,7 @@
           `${code('callback')} - a function that accepts an optional ${code('error')} argument`,
           `${code('parentNode')} - only presents when loading children options`,
           `${code('searchQuery')} - only presents when searching async options`,
-          `${code('instanceId')} - eqauls to the value of ${code('instanceId')} prop you passed to vue-treeselect`,
+          `${code('instanceId')} - eqauls to the value of ${code('instanceId')} prop you passed to vue2-treeselect`,
         ].join('<br>'),
       }, {
         name: 'matchKeys',
@@ -256,7 +256,7 @@
         name: 'openDirection',
         type: 'String',
         defaultValue: code('"auto"'),
-        description: `By default (${code('"auto"')}), the menu will open below the control. If there is not enough space, vue-treeselect will automatically flip the menu. You can use one of other four options to force the menu to be always opened to specified direction. <br>Acceptable values: ${code('"auto"')}, ${code('"below"')}, ${code('"bottom"')}, ${code('"above"')} or ${code('"top"')}.`,
+        description: `By default (${code('"auto"')}), the menu will open below the control. If there is not enough space, vue2-treeselect will automatically flip the menu. You can use one of other four options to force the menu to be always opened to specified direction. <br>Acceptable values: ${code('"auto"')}, ${code('"below"')}, ${code('"bottom"')}, ${code('"above"')} or ${code('"top"')}.`,
       }, {
         name: 'openOnClick',
         type: 'Boolean',
