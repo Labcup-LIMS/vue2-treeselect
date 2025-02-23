@@ -1882,7 +1882,7 @@ export default {
             hasUncheckedSomeDescendants = true
           }
         })
-        this.forest.selectedNodeIds = Object.keys(this.forest.selectedNodeMap);
+        this.forest.selectedNodeIds = Object.keys(this.forest.selectedNodeMap)
       }
 
       if (
@@ -1943,7 +1943,7 @@ export default {
     if (this.async && this.defaultOptions) this.handleRemoteSearch()
   },
 
-  destroyed() {
+  beforeDestroy() {
     // istanbul ignore next
     this.toggleClickOutsideEvent(false)
   },
