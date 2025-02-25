@@ -1,6 +1,6 @@
 {
   "name": "@labcup-lims/vue2-treeselect",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "A multi-select component with nested options support for Vue.js (v2)",
   "author": "Riophae Lee <riophaelee@gmail.com>, Nagy János <nagyjano@gmail.com>",
   "license": "MIT",
