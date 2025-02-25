@@ -2105,7 +2105,7 @@ export default {
     if (this.async && this.defaultOptions) this.handleRemoteSearch()
   },
 
-  destroyed() {
+  beforeDestroy() {
     // istanbul ignore next
     this.toggleClickOutsideEvent(false)
   },
