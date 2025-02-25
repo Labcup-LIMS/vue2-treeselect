@@ -101,7 +101,8 @@
         const $portalTarget = this.$el
         const controlRect = $control.getBoundingClientRect()
         const portalTargetRect = $portalTarget.getBoundingClientRect()
-        const offsetY = instance.menu.placement === 'bottom' ? controlRect.height : 0
+        const menuHeight = this.$refs.menu.$el.getBoundingClientRect().height
+        const offsetY = instance.menu.placement === 'bottom' ? controlRect.height : -menuHeight
         const left = Math.round(controlRect.left - portalTargetRect.left) + 'px'
         const top = Math.round(controlRect.top - portalTargetRect.top + offsetY) + 'px'
         const menuContainerStyle = this.$refs.menu.$refs['menu-container'].style
