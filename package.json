@@ -4,7 +4,7 @@
   "description": "A multi-select component with nested options support for Vue.js (v2)",
   "author": "Riophae Lee <riophaelee@gmail.com>, Nagy János <nagyjano@gmail.com>",
   "license": "MIT",
-  "homepage": "https://vue-treeselect.js.org/",
+  "homepage": "https://labcup-lims.github.io/vue2-treeselect/",
   "repository": "labcup-lims/vue2-treeselect",
   "main": "dist/vue2-treeselect.cjs.js",
   "unpkg": "dist/vue2-treeselect.umd.min.js",

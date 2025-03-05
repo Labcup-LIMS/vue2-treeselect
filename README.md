@@ -125,7 +125,7 @@ If you just don't want to use webpack or any other bundlers, you can simply incl
 
 ### Documentation & Live Demo
 
-[Visit the website](https://vue-treeselect.js.org/)
+[Visit the website](https://labcup-lims.github.io/vue2-treeselect/)
 
 Note: please use a desktop browser since the website hasn't been optimized for mobile devices.
 
