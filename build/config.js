@@ -17,7 +17,7 @@ const library = {
 
 const docs = {
   assetsRoot: utils.resolve('gh-pages'),
-  assetsPublicPath: '',
+  assetsPublicPath: '/vue2-treeselect/',
   assetsSubDirectory: 'static',
   bundleAnalyzerReport: process.env.npm_config_report,
 }
